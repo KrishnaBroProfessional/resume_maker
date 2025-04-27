@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Bootstrap Site</title>
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/5.0.0-alpha1/css/bootstrap.min.css" integrity="sha384-r4NyP46KrjDleawBgD5tp8Y7UzmLA05oM1iAEQ17CSuDqnUK2+k9luXQOfXJCJ4I" crossorigin="anonymous">
+<!-- <script src="https://stackpath.bootstrapcdn.com/bootstrap/5.0.0-alpha1/js/bootstrap.min.js" integrity="sha384-oesi62hOLfzrys4LxRF63OJCXdXDipiYWBnvTl9Y9/TRlw5xlKIEHpNyvvDShgf/" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script> -->
+  <style>
+    body { font-family: Arial, sans-serif; background-image: url("images/bg.gif"); color: white;background-size: cover;}
+    h2 {
+width: fit-content;
+border: 1px solid cyan;
+margin-left: 15px;
+padding: 20px;
+text-align: center;
+transform: skew(-25deg);
+background-color: black;
+display: block;
+color: #fff;
+text-decoration: none;
+font-family: sans-serif;
+}
+h2 span {
+display: block;
+margin: 0;
+text-transform: uppercase;
+transform: skew(25deg);
+}
+
+</style>
+<script src="home.js"></script>
+</head>
+<body>
+<h1>Hello-Bootstrap</h1>
+
+
+<div class="container mt-4">
+    <div class="row">
+        <div class="col-5">
+            <div class="dropdown">
+                <button class="btn btn-secondary dropdown-toggle" type="button" id="nameDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                    <span>Select Name</span>
+                </button>
+                <ul class="dropdown-menu" aria-labelledby="nameDropdown" id="nameDropdownMenu">
+                    <li><a class="dropdown-item" href="#">Krishna Gupta</a></li>
+                    <li><a class="dropdown-item" href="#">Arjun Gupta</a></li>
+                    <li><a class="dropdown-item" href="#">Siddhi Gupta</a></li>
+                </ul>
+
+            </div>
+                        <div class="mt-3">
+                            <h2><span>Job Posting</span></h2>
+                            <textarea id="jobPostingTextarea" class="form-control" rows="20"></textarea>
+                        </div>
+
+                        <button class="btn btn-success mt-4" type="button" id="generateResumeButton">
+                            Generate Resume
+                        </button>
+                    </div>
+
+
+        <div class="col-6">
+            <div class="mt-3">
+                <h2><span>Resume</span></h2>
+                <textarea id="resumeTextarea" class="form-control" rows="40"></textarea>
+            </div>
+
+            <button class="btn btn-success mt-4" type="button" id="downloadResumeButton">
+                Download Resume
+            </button>
+
+        </div>
+        </div>
+    </div>
+
+
+      <script
+      src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"
+      integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r"
+      crossorigin="anonymous"
+  ></script>
+
+  <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.min.js"
+      integrity="sha384-BBtl+eGJRgqQAUMxJ7pMwbEyER4l1g+O15P+16Ep7Q9Q+zqX6gSbd85u4mG4QzX+"
+      crossorigin="anonymous"
+  ></script>
+</body>
+</html>
