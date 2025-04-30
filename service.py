@@ -2,8 +2,17 @@ from model import UserProfileDB
 from ai_service import generate_resume_fields
 from io import BytesIO
 from docx import Document
+from docx.shared import Pt
+from docx.enum.text import WD_PARAGRAPH_ALIGNMENT
 from reportlab.lib.pagesizes import letter
 from reportlab.pdfgen import canvas
+import markdown2
+# from weasyprint import HTML
+import io
+# import os
+# from dotenv import load_dotenv
+
+# load_dotenv()
 
 # Define MongoDB Connection String
 MONGO_CONNECTION_STRING = "mongodb://localhost:27017"
@@ -107,6 +116,67 @@ def generate_resume_for_profile(job_post: str, profile_data: dict) -> dict:
     """
     return generate_resume_fields(job_post, profile_data)
 
+def generate_docx_resume(resume_markdown: str) -> bytes:
+    """
+    Generate a DOCX file bytes from markdown resume text with basic formatting.
+    """
+    # Convert markdown to HTML
+    html = markdown2.markdown(resume_markdown)
+
+    # Create a new Document
+    doc = Document()
+
+    # Simple HTML to DOCX conversion for paragraphs and basic formatting
+    from bs4 import BeautifulSoup
+    soup = BeautifulSoup(html, "html.parser")
+
+    for element in soup.children:
+        if element.name == 'h1':
+            p = doc.add_heading(level=1)
+            p.add_run(element.get_text())
+        elif element.name == 'h2':
+            p = doc.add_heading(level=2)
+            p.add_run(element.get_text())
+        elif element.name == 'h3':
+            p = doc.add_heading(level=3)
+            p.add_run(element.get_text())
+        elif element.name == 'p':
+            p = doc.add_paragraph()
+            p.add_run(element.get_text())
+        elif element.name == 'ul':
+            for li in element.find_all('li'):
+                p = doc.add_paragraph(style='List Bullet')
+                p.add_run(li.get_text())
+        elif element.name == 'ol':
+            for li in element.find_all('li'):
+                p = doc.add_paragraph(style='List Number')
+                p.add_run(li.get_text())
+        else:
+            # For other tags, add plain text
+            doc.add_paragraph(element.get_text())
+
+    buffer = BytesIO()
+    doc.save(buffer)
+    docx_bytes = buffer.getvalue()
+    buffer.close()
+    return docx_bytes
+
+# def generate_pdf_resume(resume_markdown: str) -> bytes:
+#     """
+#     Generate a PDF file bytes from markdown resume text with basic formatting.
+#     Uses markdown2 to convert markdown to HTML and WeasyPrint to convert HTML to PDF.
+#     """
+#     # Convert markdown to HTML
+#     html = markdown2.markdown(resume_markdown)
+
+#     # Use WeasyPrint to convert HTML to PDF in memory
+#     pdf_io = io.BytesIO()
+#     HTML(string=html).write_pdf(pdf_io)
+#     pdf_bytes = pdf_io.getvalue()
+#     pdf_io.close()
+
+#     return pdf_bytes
+
 def generate_pdf_resume(resume_text: str) -> bytes:
     """
     Generate a PDF file bytes from the resume text.
@@ -124,17 +194,3 @@ def generate_pdf_resume(resume_text: str) -> bytes:
     pdf_bytes = buffer.getvalue()
     buffer.close()
     return pdf_bytes
-
-def generate_docx_resume(resume_text: str) -> bytes:
-    """
-    Generate a DOCX file bytes from the resume text.
-    """
-    doc = Document()
-    lines = resume_text.split('\n')
-    for line in lines:
-        doc.add_paragraph(line)
-    buffer = BytesIO()
-    doc.save(buffer)
-    docx_bytes = buffer.getvalue()
-    buffer.close()
-    return docx_bytes
