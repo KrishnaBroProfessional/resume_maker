@@ -50,11 +50,16 @@ function generateResume() {
     }
     const jobPostTextarea = document.getElementById('jobPostingTextarea');
     const resumeTextarea = document.getElementById('resumeTextarea');
+    const generateResumeButton = document.getElementById('generateResumeButton');
 
     if (!jobPostTextarea.value.trim()) {
         alert('Please enter the job posting.');
         return;
     }
+
+    // Show generation in progress
+    generateResumeButton.disabled = true;
+    generateResumeButton.textContent = 'Generating...';
 
     fetch('/api/generate', {
         method: 'POST',
@@ -76,6 +81,11 @@ function generateResume() {
     })
     .catch(error => {
         alert('Error generating resume: ' + error.message);
+    })
+    .finally(() => {
+        // Reset button state
+        generateResumeButton.disabled = false;
+        generateResumeButton.textContent = 'Generate Resume';
     });
 }
 
